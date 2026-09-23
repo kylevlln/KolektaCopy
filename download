@@ -1,0 +1,15 @@
+# Local configuration overrides
+config.local.php
+
+# Resident-uploaded report photos (lockout files are kept)
+uploads/reports/*
+!uploads/reports/.htaccess
+!uploads/reports/index.html
+
+# Logs
+*.log
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/

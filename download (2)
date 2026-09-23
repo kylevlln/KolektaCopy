@@ -1,0 +1,26 @@
+# Kolekta — protect resident photo uploads.
+Options -Indexes
+
+# Keep scripts inside this folder inert even if a file is ever uploaded.
+<IfModule mod_php8.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+  php_flag engine off
+</IfModule>
+
+# Only image files may be served back; everything else (and the directory
+# itself) is denied — no listing, no scripts, no arbitrary downloads.
+<IfModule mod_authz_core.c>
+  <FilesMatch "\.(?i:jpg|jpeg|png|webp|html|htm)$">
+    Require all granted
+  </FilesMatch>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+  <FilesMatch "\.(?i:jpg|jpeg|png|webp|html|htm)$">
+    Allow from all
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolekta — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Black+Ops+One&family=Rubik+Dirt&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="kolekta.css">
+</head>
+<body class="auth-body">
+
+  <div class="auth-card">
+    <!-- LEFT COLUMN: FORM -->
+    <div class="auth-form-side">
+      <div>
+        <!-- Top Navigation -->
+        <div class="auth-topbar">
+          <a href="signup.html" class="btn-circle-back" title="Go to Sign Up">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </a>
+          <div class="auth-switch-text">
+            <span id="switchPrompt">Don't have an account?</span>
+            <a href="signup.html" class="auth-switch-link" id="switchModeBtn">Sign up</a>
+          </div>
+        </div>
+
+        <!-- Brand Header: Kolekta & Tagline -->
+        <div class="brand-header-block">
+          <div class="brand-title-wrap">
+            <span class="trash-icon-stamp" title="Municipal Waste Dispatch">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
+            </span>
+            <div class="brand-logo-title">
+              <span class="trash-word">TRASH</span><span class="parency-word">parency</span>
+            </div>
+          </div>
+          <div class="brand-tagline">
+            <span class="brand-tagline-quote">“Bin There, Done That”</span>
+          </div>
+        </div>
+
+        <!-- Form Title Row -->
+        <div class="auth-header">
+          <div class="auth-title-row">
+            <h1 class="auth-title" id="authTitle">Sign In</h1>
+            <svg class="scribble-arrow" viewBox="0 0 45 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M36 6 C 37 18, 26 31, 12 26 C 9 24, 7 20, 10 16 C 13 12, 19 13, 23 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M17 28 L 9 26 L 12 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="auth-subtitle" id="authSubtitle">Welcome Back — Access Your Barangay Waste Console</p>
+        </div>
+
+        <!-- Form -->
+        <form class="auth-form" id="signInForm" autocomplete="off" onsubmit="handleSignIn(event)">
+          <!-- Role Selection (Primary vs Secondary User) -->
+          <div style="margin-bottom: 2px;">
+            <label style="font-size: 11.5px; font-weight: 600; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 6px;">Select Dashboard Access</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <label class="report-pill-radio">
+                <input type="radio" name="authRole" value="resident" checked>
+                <span class="report-pill-label" style="padding: 8px 6px; font-size: 12px;">
+                  <span style="font-size: 15px;">👤 Resident</span>
+                  <span style="font-size: 10px; color: var(--pine); font-family: 'IBM Plex Mono'; font-weight: 700;">Primary User</span>
+                </span>
+              </label>
+              <label class="report-pill-radio">
+                <input type="radio" name="authRole" value="admin">
+                <span class="report-pill-label" style="padding: 8px 6px; font-size: 12px;">
+                  <span style="font-size: 15px;">🛡️ Administrator</span>
+                  <span style="font-size: 10px; color: var(--clay); font-family: 'IBM Plex Mono'; font-weight: 700;">Secondary User</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="input-field-wrap" id="emailFieldWrap">
+            <div class="auth-input-group">
+              <div class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <input type="email" class="auth-input" id="emailInput" placeholder="11Danielahmadi@gmail.com" required oninput="validateEmail()">
+              <div class="auth-addon">
+                <div class="check-badge" id="emailCheckBadge">✓</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="input-field-wrap" id="passwordFieldWrap">
+            <div class="auth-input-group">
+              <div class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <input type="password" class="auth-input" id="passwordInput" placeholder="••••••••" required>
+              <div class="auth-addon">
+                <button type="button" class="btn-eye" onclick="togglePasswordVisibility('passwordInput', this)" title="Toggle password visibility">
+                  <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="auth-extras" id="signInExtras">
+            <label class="remember-box">
+              <input type="checkbox" id="rememberMe" checked>
+              <span id="rememberText">Remember this device</span>
+            </label>
+            <a href="javascript:void(0)" onclick="toast('Password recovery link sent to your registered email')" class="link-forgot" id="forgotText">Forgot password?</a>
+          </div>
+
+          <!-- Submit & Social Row -->
+          <div class="auth-actions-row">
+            <button type="submit" class="btn-auth-submit" id="submitBtn">
+              <span id="submitBtnText">Sign In</span>
+              <span class="btn-arrow-bubble">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </button>
+
+            <span class="auth-or-divider" id="orText">Or</span>
+
+            <div class="social-login-group">
+              <!-- Facebook -->
+              <button type="button" class="social-circle-btn" title="Continue with Facebook" onclick="toast('Facebook sign-in connected')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </button>
+
+              <!-- Google -->
+              <button type="button" class="social-circle-btn" title="Continue with Google" onclick="toast('Google sign-in connected')">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.26 21.36 7.33 24 12 24z"/>
+                  <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.94 0 12c0 2.06.46 3.84 1.26 5.42l4.02-3.15z"/>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+              </button>
+
+              <!-- Barangay ID Card -->
+              <button type="button" class="social-circle-btn" title="Barangay Resident ID Card" onclick="toast('Barangay QR / Resident ID scanner ready')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                  <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="auth-bottom-bar">
+        <button type="button" class="lang-selector" onclick="toggleLanguage()">
+          <span id="langFlag">🇵🇭</span>
+          <span id="langLabel">ENG</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <span class="brand-mini-badge">Kolekta · San Isidro Waste Dispatch</span>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: VISUAL SHOWCASE - STRICTLY ONLY GREEN -->
+    <div class="auth-visual-side">
+      <!-- Layered Organic Vector Background - ONLY GREEN SHADES -->
+      <svg class="wave-bg-svg" viewBox="0 0 500 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="deepGreenBase" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1B3E21" />
+            <stop offset="100%" stop-color="#102714" />
+          </linearGradient>
+          <linearGradient id="lushGreenFlow" x1="0%" y1="0%" x2="100%" y2="80%">
+            <stop offset="0%" stop-color="#3C7B47" stop-opacity="0.92" />
+            <stop offset="100%" stop-color="#24552D" stop-opacity="0.6" />
+          </linearGradient>
+          <linearGradient id="mintAccentCurve" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4F995D" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#76B883" stop-opacity="0.45" />
+          </linearGradient>
+        </defs>
+
+        <!-- Base deep forest green layer -->
+        <rect width="500" height="700" fill="url(#deepGreenBase)" />
+
+        <!-- Fluid wave curve 1 (pine medium green) -->
+        <path d="M0,0 C150,120 300,50 500,160 L500,0 Z" fill="#2E5E37" opacity="0.7" />
+
+        <!-- Fluid wave curve 2 (lush foliage flow) -->
+        <path d="M500,120 C320,180 180,320 500,480 L500,700 L200,700 C80,560 20,440 0,380 L0,180 C120,240 320,160 500,120 Z" fill="url(#lushGreenFlow)" />
+
+        <!-- Fluid wave curve 3 (deep pine shade bottom fold) -->
+        <path d="M0,450 C180,480 280,600 500,560 L500,700 L0,700 Z" fill="#142F19" opacity="0.9" />
+
+        <!-- Fluid mint/leaf green contour -->
+        <path d="M0,0 C80,140 40,260 0,320 L0,0 Z" fill="url(#mintAccentCurve)" opacity="0.4" />
+      </svg>
+
+      <!-- Floating Card 1: Stats Widget (Strictly Green Theme) -->
+      <div class="float-card card-stat-widget">
+        <div class="stat-widget-label">WASTE COLLECTION</div>
+        <div class="stat-widget-value">176,18 <span style="font-size: 14px; font-weight: 500; color: #3F6B45;">kg</span></div>
+        
+        <div class="stat-chart-container">
+          <div class="chart-floating-badge">P1–8</div>
+          <svg viewBox="0 0 170 52" style="width: 100%; height: 100%; overflow: visible;">
+            <defs>
+              <linearGradient id="greenSparkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#76B883" />
+                <stop offset="48%" stop-color="#3E7849" />
+                <stop offset="70%" stop-color="#559962" />
+                <stop offset="100%" stop-color="#244D2A" />
+              </linearGradient>
+            </defs>
+            <!-- Undulating sparkline in lush greens -->
+            <path d="M 5,36 Q 16,8 30,34 T 58,30 T 88,15 T 116,36 T 144,18 T 165,30" 
+                  fill="none" 
+                  stroke="url(#greenSparkGrad)" 
+                  stroke-width="3.6" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" />
+            <circle cx="88" cy="15" r="4.5" fill="#17381C" stroke="#FCFAF4" stroke-width="2" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Floating Badge 1: Green Eco Leaf / Report -->
+      <div class="floating-icon-badge badge-eco" title="Photo verified collection reports">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FCFAF4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+      </div>
+
+      <!-- Floating Badge 2: Live Route Dispatch Truck (Green) -->
+      <div class="floating-icon-badge badge-truck" title="Live route truck tracking">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F4C26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13"></rect>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+        </svg>
+      </div>
+
+      <!-- Floating Card 2: Security & Transparency (Strictly Green Theme) -->
+      <div class="float-card card-security-widget">
+        <div class="sec-top-flex">
+          <div class="sec-indicator-bars">
+            <div class="sec-bar accent"></div>
+            <div class="sec-bar muted-1"></div>
+            <div class="sec-bar muted-2"></div>
+          </div>
+          <div class="sec-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+          </div>
+        </div>
+        <h4 class="sec-widget-heading">Verified Waste Transparency</h4>
+        <p class="sec-widget-desc">Tamper-proof route tracking and photo-verified household collection.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Toast Notification -->
+  <div class="toast" id="toast">
+    <span class="dot"></span>
+    <span id="toastText">Action successful</span>
+  </div>
+
+  <script>
+    let currentLang = 'ENG';
+
+    // Auto-fill newly registered email if arriving from signup
+    window.addEventListener('DOMContentLoaded', () => {
+      const regEmail = localStorage.getItem('kolekta_registered_email');
+      if (regEmail) {
+        const emailInput = document.getElementById('emailInput');
+        emailInput.value = regEmail;
+        validateEmail();
+        toast('Account detected! Please enter your password to sign in.');
+      }
+    });
+
+    // Eye toggle for password visibility
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      
+      if (isPassword) {
+        btn.innerHTML = `
+          <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        `;
+      } else {
+        btn.innerHTML = `
+          <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+      }
+    }
+
+    function validateEmail() {
+      const val = document.getElementById('emailInput').value.trim();
+      const badge = document.getElementById('emailCheckBadge');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(val)) {
+        badge.classList.add('active');
+      } else {
+        badge.classList.remove('active');
+      }
+    }
+
+    // Handle Authentication -> Redirect to dashboard.html
+    function handleSignIn(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      const pass = document.getElementById('passwordInput').value;
+
+      if (!email || !pass) {
+        toast('Please enter both email and password');
+        return;
+      }
+
+      const selectedRole = document.querySelector('input[name="authRole"]:checked').value;
+      const isAdmin = selectedRole === 'admin';
+
+      // Check registered user in localStorage
+      const savedUserJson = localStorage.getItem('kolekta_user');
+      let userName = isAdmin ? 'B. Reyes' : 'Daniel Ahmadi';
+
+      if (savedUserJson) {
+        try {
+          const savedUser = JSON.parse(savedUserJson);
+          if (savedUser.email.toLowerCase() === email.toLowerCase()) {
+            if (savedUser.password !== pass) {
+              toast('Incorrect password. Please try again.');
+              return;
+            }
+            userName = savedUser.name;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      // Save active session
+      localStorage.setItem('kolekta_session', JSON.stringify({
+        name: userName,
+        email: email,
+        role: isAdmin ? 'Administrator (Secondary User)' : 'Resident (Primary User)',
+        isAdmin: isAdmin
+      }));
+
+      if (isAdmin) {
+        toast('Admin verified! Opening Administrator Console...');
+        setTimeout(() => {
+          window.location.href = "admin-dashboard.html";
+        }, 1000);
+      } else {
+        toast('Resident verified! Opening Household Dashboard...');
+        setTimeout(() => {
+          window.location.href = "user-dashboard.html";
+        }, 1000);
+      }
+    }
+
+    // Toast alert helper
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      const text = document.getElementById('toastText');
+      text.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    // Language Toggle
+    function toggleLanguage() {
+      currentLang = currentLang === 'ENG' ? 'FIL' : 'ENG';
+      document.getElementById('langLabel').textContent = currentLang;
+      document.getElementById('langFlag').textContent = currentLang === 'ENG' ? '🇵🇭' : '🌐';
+      
+      const authTitle = document.getElementById('authTitle');
+      const authSubtitle = document.getElementById('authSubtitle');
+      const switchPrompt = document.getElementById('switchPrompt');
+      const switchModeBtn = document.getElementById('switchModeBtn');
+      const submitBtnText = document.getElementById('submitBtnText');
+      const rememberText = document.getElementById('rememberText');
+      const forgotText = document.getElementById('forgotText');
+      const orText = document.getElementById('orText');
+
+      if (currentLang === 'FIL') {
+        authTitle.textContent = 'Mag-Sign In';
+        authSubtitle.textContent = 'Maligayang Pagbabalik — Buksan ang Barangay Waste Console';
+        switchPrompt.textContent = 'Wala pang account?';
+        switchModeBtn.textContent = 'Mag-sign up';
+        submitBtnText.textContent = 'Pumasok';
+        rememberText.textContent = 'Tandaan ang device na ito';
+        forgotText.textContent = 'Nakalimutan ang password?';
+        orText.textContent = 'O';
+      } else {
+        authTitle.textContent = 'Sign In';
+        authSubtitle.textContent = 'Welcome Back — Access Your Barangay Waste Console';
+        switchPrompt.textContent = "Don't have an account?";
+        switchModeBtn.textContent = 'Sign up';
+        submitBtnText.textContent = 'Sign In';
+        rememberText.textContent = 'Remember this device';
+        forgotText.textContent = 'Forgot password?';
+        orText.textContent = 'Or';
+      }
+      toast(currentLang === 'FIL' ? 'Wika pinalitan sa Filipino' : 'Language set to English');
+    }
+  </script>
+</body>
+</html>

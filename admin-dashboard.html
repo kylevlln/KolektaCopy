@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kolekta — Admin Dashboard (Secondary User)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Black+Ops+One&family=Rubik+Dirt&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kolekta.css">
+</head>
+<body>
+
+<!-- Role Context Bar -->
+<div class="role-switch-banner" style="background: #FAF5F0; border-bottom: 1px solid var(--clay-dim);">
+  <div>
+    <span>🛡️ Viewing as: </span>
+    <span class="role-badge-secondary">Administrator · Secondary User</span>
+    <span style="margin-left: 8px; font-size: 12px; color: var(--clay);">Full SWM Operations & Barangay Oversight</span>
+  </div>
+  <a href="user-dashboard.html" class="role-switch-link" title="Switch to Resident Dashboard" style="border-color: var(--clay-dim);">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    Switch to Resident (Primary User) Dashboard →
+  </a>
+</div>
+
+<div class="app">
+  <!-- SIDEBAR: ADMINISTRATOR SECONDARY USER -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="trash-icon-stamp" style="width: 26px; height: 26px; border-radius: 4px; background: var(--clay); margin-right: 2px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+      </span>
+      <span class="brand-name" style="font-size: 20px;"><span class="trash-word" style="font-size: 22px; color: var(--clay); vertical-align: baseline;">TRASH</span>parency</span>
+    </div>
+    <div class="brand-sub">“Bin There, Done That” · Admin Console</div>
+
+    <nav>
+      <div class="navlink active" data-view="overview"><span class="num">01</span>Overview</div>
+      <div class="navlink" data-view="dispatch"><span class="num">02</span>Zone Dispatch</div>
+      <div class="navlink" data-view="schedule"><span class="num">03</span>Schedule Manager</div>
+      <div class="navlink" data-view="triage"><span class="num">04</span>Pickup Reports <span class="role-chip" style="background:var(--clay);">7 Open</span></div>
+      <div class="navlink" data-view="analytics"><span class="num">05</span>Analytics & Routes</div>
+      <div class="navlink" data-view="accounts"><span class="num">06</span>Users & Registry</div>
+    </nav>
+
+    <div class="sidebar-foot">
+      Logged in as<br>
+      <b id="whoami">B. Reyes</b>
+      <div style="font-size: 11px; color: #9FAE9C; margin-top: 2px;">Role: <span style="color: var(--clay-dim); font-weight: 600;">Administrator (Secondary User)</span></div>
+      <div style="font-size: 11px; color: #9FAE9C;">Scope: <b>All 8 Zones (Purok 1–8)</b></div>
+      <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08);">
+        <a href="user-dashboard.html" style="color: var(--paper); font-size: 11.5px; text-decoration: underline; display: block; margin-bottom: 6px;">View Resident (Primary User) Dashboard</a>
+        <a href="signin.html" style="color: #9FAE9C; font-size: 11.5px; text-decoration: none;">← Sign out</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN ADMIN CONTENT -->
+  <main>
+    <!-- OVERVIEW -->
+    <section class="view active" id="view-overview">
+      <div class="topbar">
+        <div>
+          <h1>Barangay Waste Overview</h1>
+          <p>System-wide monitoring & active dispatches across all 8 Puroks</p>
+        </div>
+        <div class="today">
+          Wednesday<b>Sept 3, 2026</b>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Zones dispatched</div>
+          <div class="stat-value pine">5 / 8</div>
+          <div class="stat-note">Non-biodegradable day</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Open citizen reports</div>
+          <div class="stat-value clay">7</div>
+          <div class="stat-note">3 unread since 8am</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Resolved this week</div>
+          <div class="stat-value">24</div>
+          <div class="stat-note">Avg. response 3.4 hrs</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Registered households</div>
+          <div class="stat-value">1,246</div>
+          <div class="stat-note">Primary users directory</div>
+        </div>
+      </div>
+
+      <section class="block">
+        <div class="block-head">
+          <h2>Zones awaiting dispatch</h2>
+          <a onclick="switchView('dispatch')">Go to Zone Dispatch →</a>
+        </div>
+        <table>
+          <tr><th>Zone</th><th>Households</th><th>Waste type today</th><th>Status</th><th>Action</th></tr>
+          <tr>
+            <td><span class="zone-badge">P6</span> Purok 6</td>
+            <td>168</td>
+            <td><span class="tag nonbio">Non-biodegradable</span></td>
+            <td><span class="status-dot pending"></span>Not yet sent</td>
+            <td><button class="btn small" onclick="dispatchZone('P6')">Dispatch Now</button></td>
+          </tr>
+          <tr>
+            <td><span class="zone-badge">P7</span> Purok 7</td>
+            <td>142</td>
+            <td><span class="tag nonbio">Non-biodegradable</span></td>
+            <td><span class="status-dot pending"></span>Not yet sent</td>
+            <td><button class="btn small" onclick="dispatchZone('P7')">Dispatch Now</button></td>
+          </tr>
+          <tr>
+            <td><span class="zone-badge">P8</span> Purok 8</td>
+            <td>95</td>
+            <td><span class="tag nonbio">Non-biodegradable</span></td>
+            <td><span class="status-dot pending"></span>Not yet sent</td>
+            <td><button class="btn small" onclick="dispatchZone('P8')">Dispatch Now</button></td>
+          </tr>
+        </table>
+      </section>
+
+      <section class="block">
+        <div class="block-head">
+          <h2>Newest resident pickup reports</h2>
+          <a onclick="switchView('triage')">Go to Reports Triage →</a>
+        </div>
+        <table>
+          <tr><th>Zone</th><th>Street</th><th>Reported by</th><th>Time</th><th>Status</th></tr>
+          <tr>
+            <td><span class="zone-badge">P3</span></td>
+            <td>Maharlika St. (Gate 12)</td>
+            <td>Household #0231</td>
+            <td>18 min ago</td>
+            <td><span class="tag new">New</span></td>
+          </tr>
+          <tr>
+            <td><span class="zone-badge">P1</span></td>
+            <td>Sampaguita Ext.</td>
+            <td>Household #0104</td>
+            <td>52 min ago</td>
+            <td><span class="tag new">New</span></td>
+          </tr>
+          <tr>
+            <td><span class="zone-badge">P4</span></td>
+            <td>Rizal Ave.</td>
+            <td>Household #0089</td>
+            <td>1 hr ago</td>
+            <td><span class="tag dispatched">Dispatched</span></td>
+          </tr>
+        </table>
+      </section>
+    </section>
+
+    <!-- ZONE DISPATCH -->
+    <section class="view" id="view-dispatch">
+      <div class="topbar">
+        <div>
+          <h1>Zone Dispatch Console</h1>
+          <p>Tap a zone once the collector truck leaves the station — residents receive immediate push notifications</p>
+        </div>
+        <div class="today">Today's collection<b style="color:var(--grey)">Non‑biodegradable</b></div>
+      </div>
+
+      <div class="zonegrid" id="zonegrid"></div>
+    </section>
+
+    <!-- SCHEDULE MANAGER -->
+    <section class="view" id="view-schedule">
+      <div class="topbar">
+        <div>
+          <h1>Schedule & Cancellation Manager</h1>
+          <p>Configure weekly collection days per zone or broadcast emergency schedule cancellations</p>
+        </div>
+      </div>
+
+      <div class="cancel-banner">
+        <p><b>Broadcast a cancellation or delay</b>Instantly pushes alerts to all registered primary users in affected zones.</p>
+        <div class="form-row">
+          <select id="cancelZone">
+            <option>All Puroks</option>
+            <option>Purok 1</option><option>Purok 2</option><option>Purok 3</option><option>Purok 4</option>
+            <option>Purok 5</option><option>Purok 6</option><option>Purok 7</option><option>Purok 8</option>
+          </select>
+          <input type="text" id="cancelReason" placeholder="Reason (e.g. truck breakdown, heavy flooding)" style="width:240px">
+          <button class="btn clay" onclick="announceCancel()">Broadcast Notice</button>
+        </div>
+      </div>
+
+      <section class="block">
+        <div class="block-head"><h2>Weekly collection matrix by Purok</h2></div>
+        <table>
+          <tr><th>Zone</th><th>Monday</th><th>Wednesday</th><th>Friday</th><th>Action</th></tr>
+          <tr><td><span class="zone-badge">P1</span> Purok 1</td><td><span class="tag bio">Biodegradable</span></td><td><span class="tag nonbio">Non-bio</span></td><td><span class="tag recyc">Recyclable</span></td><td><button class="btn ghost small" onclick="toast('Edit schedule modal opened')">Edit</button></td></tr>
+          <tr><td><span class="zone-badge">P2</span> Purok 2</td><td><span class="tag bio">Biodegradable</span></td><td><span class="tag nonbio">Non-bio</span></td><td><span class="tag recyc">Recyclable</span></td><td><button class="btn ghost small" onclick="toast('Edit schedule modal opened')">Edit</button></td></tr>
+          <tr><td><span class="zone-badge">P3</span> Purok 3</td><td><span class="tag bio">Biodegradable</span></td><td><span class="tag nonbio">Non-bio</span></td><td>—</td><td><button class="btn ghost small" onclick="toast('Edit schedule modal opened')">Edit</button></td></tr>
+          <tr><td><span class="zone-badge">P4</span> Purok 4</td><td><span class="tag bio">Biodegradable</span></td><td><span class="tag nonbio">Non-bio</span></td><td><span class="tag recyc">Recyclable</span></td><td><button class="btn ghost small" onclick="toast('Edit schedule modal opened')">Edit</button></td></tr>
+          <tr><td><span class="zone-badge">P5</span> Purok 5</td><td>—</td><td><span class="tag nonbio">Non-bio</span></td><td><span class="tag recyc">Recyclable</span></td><td><button class="btn ghost small" onclick="toast('Edit schedule modal opened')">Edit</button></td></tr>
+        </table>
+      </section>
+    </section>
+
+    <!-- TRIAGE & PICKUP REPORTS -->
+    <section class="view" id="view-triage">
+      <div class="topbar">
+        <div>
+          <h1>Citizen Missed Pickup Reports</h1>
+          <p>Review resident-submitted complaints, view verified photos, and deploy secondary trucks</p>
+        </div>
+      </div>
+
+      <div class="group-label">Maharlika St. · Purok 3</div>
+      <div class="ticket">
+        <div class="thumb"></div>
+        <div class="meta">
+          <b>Reported by Household #0231 (Daniel Ahmadi)</b>
+          <div class="street">3 bags left uncollected outside gate 12</div>
+          <div class="time">18 minutes ago · Photo verified</div>
+        </div>
+        <div class="actions">
+          <button class="btn clay small" onclick="resolveTicket(this)">Dispatch pickup</button>
+          <span class="tag new">New</span>
+        </div>
+      </div>
+
+      <div class="group-label">Sampaguita Ext. · Purok 1</div>
+      <div class="ticket">
+        <div class="thumb"></div>
+        <div class="meta">
+          <b>Reported by Household #0104</b>
+          <div class="street">Truck skipped this block entirely</div>
+          <div class="time">52 minutes ago · Unverified photo</div>
+        </div>
+        <div class="actions">
+          <button class="btn clay small" onclick="resolveTicket(this)">Dispatch pickup</button>
+          <span class="tag new">New</span>
+        </div>
+      </div>
+
+      <div class="group-label">Rizal Ave. · Purok 4</div>
+      <div class="ticket">
+        <div class="thumb"></div>
+        <div class="meta">
+          <b>Reported by Household #0089</b>
+          <div class="street">Recyclables not picked up since Monday</div>
+          <div class="time">1 hour ago</div>
+        </div>
+        <div class="actions">
+          <button class="btn done small" disabled>Truck en route</button>
+          <span class="tag dispatched">Dispatched</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="view" id="view-analytics">
+      <div class="topbar">
+        <div>
+          <h1>Barangay Waste Analytics & Route Flags</h1>
+          <p>30-day complaint density and route optimization recommendations</p>
+        </div>
+      </div>
+
+      <section class="block">
+        <div class="block-head"><h2>Complaint density by Purok (30 Days)</h2></div>
+        <div class="heatgrid" id="heatgrid"></div>
+        <div class="legend">
+          <span><span class="sw" style="background:var(--pine)"></span>0–2 reports (Good)</span>
+          <span><span class="sw" style="background:var(--amber)"></span>3–6 reports (Moderate)</span>
+          <span><span class="sw" style="background:var(--clay)"></span>7+ reports (Needs Route Review)</span>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="block-head"><h2>Puroks flagged for route adjustments</h2></div>
+        <table>
+          <tr><th>Zone</th><th>Reports (30d)</th><th>Frequent Cause</th><th>Suggested Action</th></tr>
+          <tr><td><span class="zone-badge">P3</span> Purok 3</td><td>11</td><td>Truck skips secondary alley</td><td>Add secondary collector alley stop</td></tr>
+          <tr><td><span class="zone-badge">P6</span> Purok 6</td><td>8</td><td>Late truck arrival</td><td>Shift departure time 30 mins earlier</td></tr>
+        </table>
+      </section>
+    </section>
+
+    <!-- USERS & REGISTRY -->
+    <section class="view" id="view-accounts">
+      <div class="topbar">
+        <div>
+          <h1>User Registry & Account Management</h1>
+          <p>Manage secondary users (staff & dispatchers) and monitor primary users (resident households)</p>
+        </div>
+      </div>
+
+      <!-- Secondary Users Section -->
+      <section class="block">
+        <div class="block-head">
+          <h2>Secondary Users — System Administrators & Dispatchers</h2>
+          <button class="btn ghost small" onclick="toggleAddUser()">+ Add Staff Account</button>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 14px;">Barangay personnel, solid waste management officers, and dispatchers with console access.</p>
+
+        <div id="addUserForm" style="display:none" class="cancel-banner">
+          <p><b>Add secondary user</b>They'll receive administrative credentials scoped to assigned zones.</p>
+          <div class="form-row">
+            <input type="text" placeholder="Full name" style="width:160px">
+            <select><option>Admin</option><option>Dispatcher</option><option>Route Supervisor</option></select>
+            <select><option>All Puroks</option><option>Purok 1–4</option><option>Purok 5–8</option></select>
+            <button class="btn clay" onclick="addPrimaryUser()">Save Account</button>
+          </div>
+        </div>
+
+        <table>
+          <tr><th>Name</th><th>Role</th><th>Scope</th><th>Status</th><th>Action</th></tr>
+          <tr>
+            <td>B. Reyes</td>
+            <td><span class="role-badge-secondary">Administrator</span></td>
+            <td>All 8 Zones</td>
+            <td><span class="status-dot sent"></span>Active</td>
+            <td><button class="btn ghost small" onclick="toast('Manage admin permissions')">Manage</button></td>
+          </tr>
+          <tr>
+            <td>R. Domingo</td>
+            <td><span class="tag nonbio">Dispatcher</span></td>
+            <td>Purok 1–4</td>
+            <td><span class="status-dot sent"></span>Active</td>
+            <td><button class="btn ghost small" onclick="toast('Manage dispatcher permissions')">Manage</button></td>
+          </tr>
+          <tr>
+            <td>M. Villar</td>
+            <td><span class="tag nonbio">Dispatcher</span></td>
+            <td>Purok 5–8</td>
+            <td><span class="status-dot sent"></span>Active</td>
+            <td><button class="btn ghost small" onclick="toast('Manage dispatcher permissions')">Manage</button></td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- Primary Users Section -->
+      <section class="block">
+        <div class="block-head">
+          <h2>Primary Users — Registered Resident Households (1,246 Total)</h2>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 14px;">Residents registered for pickup alerts and photo-reporting. Self-registered via the web portal or barangay hall.</p>
+        
+        <table>
+          <tr><th>Household ID</th><th>Resident Name</th><th>Zone</th><th>Contact</th><th>Alerts</th><th>Status</th></tr>
+          <tr>
+            <td><b>#0231</b></td>
+            <td>Daniel Ahmadi</td>
+            <td><span class="zone-badge">P3</span> Purok 3</td>
+            <td>0917-•••-2314</td>
+            <td><span class="status-dot sent"></span>Enabled</td>
+            <td><span class="role-badge-primary">Primary User</span></td>
+          </tr>
+          <tr>
+            <td><b>#0104</b></td>
+            <td>Maria Santos</td>
+            <td><span class="zone-badge">P1</span> Purok 1</td>
+            <td>0928-•••-7710</td>
+            <td><span class="status-dot sent"></span>Enabled</td>
+            <td><span class="role-badge-primary">Primary User</span></td>
+          </tr>
+          <tr>
+            <td><b>#0089</b></td>
+            <td>Juan Dela Cruz</td>
+            <td><span class="zone-badge">P4</span> Purok 4</td>
+            <td>0917-•••-0043</td>
+            <td><span class="status-dot pending"></span>Disabled</td>
+            <td><span class="role-badge-primary">Primary User</span></td>
+          </tr>
+        </table>
+      </section>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText"></span></div>
+
+<script>
+  function switchView(name){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.querySelectorAll('.navlink').forEach(n=>n.classList.remove('active'));
+    const target = document.getElementById('view-'+name);
+    if(target) target.classList.add('active');
+    const nav = document.querySelector('.navlink[data-view="'+name+'"]');
+    if(nav) nav.classList.add('active');
+  }
+  document.querySelectorAll('.navlink').forEach(n=>{
+    n.addEventListener('click',()=>switchView(n.dataset.view));
+  });
+
+  function toast(msg){
+    const t=document.getElementById('toast');
+    document.getElementById('toastText').textContent=msg;
+    t.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+  }
+
+  // Zone dispatch grid
+  const zones=[
+    {id:'P1',name:'Purok 1',hh:120,sent:'7:42 AM'},
+    {id:'P2',name:'Purok 2',hh:134,sent:'7:45 AM'},
+    {id:'P3',name:'Purok 3',hh:101,sent:'7:51 AM'},
+    {id:'P4',name:'Purok 4',hh:156,sent:'8:02 AM'},
+    {id:'P5',name:'Purok 5',hh:130,sent:'8:10 AM'},
+    {id:'P6',name:'Purok 6',hh:168,sent:null},
+    {id:'P7',name:'Purok 7',hh:142,sent:null},
+    {id:'P8',name:'Purok 8',hh:95,sent:null},
+  ];
+  const grid=document.getElementById('zonegrid');
+  function renderZones(){
+    if(!grid) return;
+    grid.innerHTML='';
+    zones.forEach(z=>{
+      const card=document.createElement('div');
+      card.className='zonecard'+(z.sent?' sent':'');
+      card.innerHTML=`
+        <div class="zn">
+          <div><div class="name">${z.name}</div><div class="puroks">${z.hh} households</div></div>
+          <span class="zone-badge">${z.id}</span>
+        </div>
+        <div class="lastsent"><span class="status-dot ${z.sent?'sent':'pending'}"></span>${z.sent? 'Dispatched '+z.sent : 'Not yet dispatched'}</div>
+        <button class="btn ${z.sent?'ghost':''} small" style="align-self:flex-start" onclick="dispatchZone('${z.id}')">${z.sent?'Re-send alert':'Dispatch truck'}</button>
+      `;
+      grid.appendChild(card);
+    });
+  }
+  function dispatchZone(id){
+    const z=zones.find(zz=>zz.id===id);
+    const now=new Date();
+    z.sent=now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    renderZones();
+    toast('Dispatched Truck to '+z.name+' — '+z.hh+' households notified via push');
+  }
+  renderZones();
+
+  function toggleAddUser(){
+    const f=document.getElementById('addUserForm');
+    f.style.display = f.style.display==='none' ? 'flex' : 'none';
+  }
+  function addPrimaryUser(){
+    toast('Secondary user staff account created');
+    toggleAddUser();
+  }
+
+  function announceCancel(){
+    const zone=document.getElementById('cancelZone').value;
+    const reason=document.getElementById('cancelReason').value || 'maintenance';
+    toast('Emergency broadcast sent to '+zone+': '+reason);
+  }
+
+  function resolveTicket(btn){
+    const ticket=btn.closest('.ticket');
+    ticket.querySelector('.tag').outerHTML='<span class="tag dispatched">Dispatched</span>';
+    btn.textContent='Truck en route';
+    btn.classList.add('done');
+    btn.disabled=true;
+    toast('Secondary collector truck dispatched for ticket');
+  }
+
+  // Analytics heatgrid
+  const heat=[1,2,0,11,1,8,3,2, 0,4,1,2,5,0,1,3];
+  const hg=document.getElementById('heatgrid');
+  if(hg){
+    heat.forEach((v,i)=>{
+      const cell=document.createElement('div');
+      cell.className='heatcell';
+      let color='var(--pine)';
+      if(v>=7) color='var(--clay)'; else if(v>=3) color='var(--amber)';
+      cell.style.background=color;
+      cell.innerHTML=`P${(i%8)+1}<br>${v}`;
+      hg.appendChild(cell);
+    });
+  }
+</script>
+</body>
+</html>

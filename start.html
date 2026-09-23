@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolekta — Sign Up & Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="kolekta.css">
+</head>
+<body class="auth-body">
+
+  <div class="auth-card">
+    <!-- LEFT COLUMN: FORM -->
+    <div class="auth-form-side">
+      <div>
+        <!-- Top Navigation -->
+        <div class="auth-topbar">
+          <a href="dashboard.html" class="btn-circle-back" title="Go to Dashboard">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </a>
+          <div class="auth-switch-text">
+            <span id="switchPrompt">Already member?</span>
+            <a href="javascript:void(0)" class="auth-switch-link" id="switchModeBtn">Sign in</a>
+          </div>
+        </div>
+
+        <!-- Header -->
+        <div class="auth-header">
+          <div class="auth-title-row">
+            <h1 class="auth-title" id="authTitle">Sign Up</h1>
+            <svg class="scribble-arrow" viewBox="0 0 45 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M36 6 C 37 18, 26 31, 12 26 C 9 24, 7 20, 10 16 C 13 12, 19 13, 23 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M17 28 L 9 26 L 12 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="auth-subtitle" id="authSubtitle">Secure Your Communications & Route Dispatch with Kolekta</p>
+        </div>
+
+        <!-- Form -->
+        <form class="auth-form" id="authForm" autocomplete="off" onsubmit="handleAuthSubmit(event)">
+          <!-- Full Name (Sign Up Only) -->
+          <div class="input-field-wrap" id="nameFieldWrap">
+            <div class="auth-input-group">
+              <div class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <input type="text" class="auth-input" id="nameInput" placeholder="Daniel Ahmadi" oninput="validateName()">
+              <div class="auth-addon">
+                <div class="check-badge" id="nameCheckBadge">✓</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="input-field-wrap" id="emailFieldWrap">
+            <div class="auth-input-group">
+              <div class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <input type="email" class="auth-input" id="emailInput" placeholder="11Danielahmadi@gmail.com" oninput="validateEmail()">
+              <div class="auth-addon">
+                <div class="check-badge" id="emailCheckBadge">✓</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="input-field-wrap" id="passwordFieldWrap">
+            <div class="auth-input-group">
+              <div class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <input type="password" class="auth-input" id="passwordInput" placeholder="••••••••" oninput="validatePassword()">
+              <div class="auth-addon">
+                <button type="button" class="btn-eye" onclick="togglePasswordVisibility('passwordInput', this)" title="Toggle password visibility">
+                  <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Password Criteria & Strength (Sign Up Only) -->
+            <div class="password-meter" id="passwordMeter">
+              <div class="meter-bar-track">
+                <div class="meter-bar-fill" id="meterFill"></div>
+              </div>
+              <ul class="password-checklist">
+                <li class="crit-row" id="critLen">
+                  <span class="crit-icon">•</span> <span id="critLenText">Least 8 characters</span>
+                </li>
+                <li class="crit-row" id="critNum">
+                  <span class="crit-icon">•</span> <span id="critNumText">Least one number (0-9) or a symbol</span>
+                </li>
+                <li class="crit-row" id="critCase">
+                  <span class="crit-icon">•</span> <span id="critCaseText">Lowercase (a-z) and uppercase (A-Z)</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Confirm Password (Sign Up Only) -->
+          <div class="input-field-wrap" id="confirmFieldWrap">
+            <div class="auth-input-group">
+              <div class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <input type="password" class="auth-input" id="confirmInput" placeholder="Re-Type Password" oninput="validateConfirmPassword()">
+              <div class="auth-addon">
+                <div class="check-badge" id="confirmCheckBadge">✓</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Remember Me & Forgot Password (Sign In Only) -->
+          <div class="auth-extras hidden" id="signInExtras">
+            <label class="remember-box">
+              <input type="checkbox" id="rememberMe">
+              <span id="rememberText">Remember this device</span>
+            </label>
+            <a href="javascript:void(0)" onclick="toast('Password recovery instructions sent to your email')" class="link-forgot" id="forgotText">Forgot password?</a>
+          </div>
+
+          <!-- Submit & Social Row -->
+          <div class="auth-actions-row">
+            <button type="submit" class="btn-auth-submit" id="submitBtn">
+              <span id="submitBtnText">Sign Up</span>
+              <span class="btn-arrow-bubble">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </button>
+
+            <span class="auth-or-divider" id="orText">Or</span>
+
+            <div class="social-login-group">
+              <!-- Facebook -->
+              <button type="button" class="social-circle-btn" title="Continue with Facebook" onclick="toast('Facebook authentication connected')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </button>
+
+              <!-- Google -->
+              <button type="button" class="social-circle-btn" title="Continue with Google" onclick="toast('Google authentication connected')">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.26 21.36 7.33 24 12 24z"/>
+                  <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.94 0 12c0 2.06.46 3.84 1.26 5.42l4.02-3.15z"/>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+              </button>
+
+              <!-- Barangay ID Card -->
+              <button type="button" class="social-circle-btn" title="Barangay Resident ID Card" onclick="toast('Barangay QR / Resident ID scanner ready')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                  <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="auth-bottom-bar">
+        <button type="button" class="lang-selector" onclick="toggleLanguage()">
+          <span id="langFlag">🇵🇭</span>
+          <span id="langLabel">ENG</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <span class="brand-mini-badge">Kolekta · San Isidro Dispatch</span>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: VISUAL SHOWCASE -->
+    <div class="auth-visual-side">
+      <!-- Layered Organic Vector Background in Project Colors -->
+      <svg class="wave-bg-svg" viewBox="0 0 500 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="forestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2F5233" />
+            <stop offset="100%" stop-color="#1F2B22" />
+          </linearGradient>
+          <linearGradient id="blueGlow" x1="0%" y1="0%" x2="100%" y2="80%">
+            <stop offset="0%" stop-color="#3A6EA5" stop-opacity="0.85" />
+            <stop offset="100%" stop-color="#2F5233" stop-opacity="0.3" />
+          </linearGradient>
+          <linearGradient id="clayRibbon" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#B5502A" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#C79A2E" stop-opacity="0.75" />
+          </linearGradient>
+        </defs>
+
+        <!-- Base deep pine layer -->
+        <rect width="500" height="700" fill="url(#forestGrad)" />
+
+        <!-- Fluid wave curve 1 (pine dim) -->
+        <path d="M0,0 C150,120 300,50 500,160 L500,0 Z" fill="#3F6B45" opacity="0.5" />
+
+        <!-- Fluid wave curve 2 (soft blue flow) -->
+        <path d="M500,120 C320,180 180,320 500,480 L500,700 L200,700 C80,560 20,440 0,380 L0,180 C120,240 320,160 500,120 Z" fill="url(#blueGlow)" />
+
+        <!-- Fluid wave curve 3 (deep ink bottom fold) -->
+        <path d="M0,450 C180,480 280,600 500,560 L500,700 L0,700 Z" fill="#1F2B22" opacity="0.8" />
+
+        <!-- Fluid clay/amber accent contour -->
+        <path d="M0,0 C80,140 40,260 0,320 L0,0 Z" fill="url(#clayRibbon)" opacity="0.35" />
+      </svg>
+
+      <!-- Floating Card 1: Stats Widget -->
+      <div class="float-card card-stat-widget">
+        <div class="stat-widget-label" id="widgetStatLabel">INBOX DISPATCH</div>
+        <div class="stat-widget-value">176,18</div>
+        
+        <div class="stat-chart-container">
+          <div class="chart-floating-badge">45</div>
+          <svg viewBox="0 0 170 52" style="width: 100%; height: 100%; overflow: visible;">
+            <defs>
+              <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#B5502A" />
+                <stop offset="48%" stop-color="#C79A2E" />
+                <stop offset="70%" stop-color="#3A6EA5" />
+                <stop offset="100%" stop-color="#B5502A" />
+              </linearGradient>
+            </defs>
+            <!-- Wavy undulating line chart matching reference -->
+            <path d="M 5,36 Q 16,8 30,34 T 58,30 T 88,15 T 116,36 T 144,18 T 165,30" 
+                  fill="none" 
+                  stroke="url(#sparkGrad)" 
+                  stroke-width="3.6" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" />
+            <!-- Active anchor circle -->
+            <circle cx="88" cy="15" r="4.5" fill="#1F2B22" stroke="#FCFAF4" stroke-width="2" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Floating Badge 1: Gradient Photo / Report Pickup -->
+      <div class="floating-icon-badge badge-eco" title="Photo verified collection reports">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+          <circle cx="12" cy="13" r="4"></circle>
+        </svg>
+      </div>
+
+      <!-- Floating Badge 2: Live Route Dispatch Truck -->
+      <div class="floating-icon-badge badge-truck" title="Live route truck tracking">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13"></rect>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+        </svg>
+      </div>
+
+      <!-- Floating Card 2: Security & Transparency -->
+      <div class="float-card card-security-widget">
+        <div class="sec-top-flex">
+          <div class="sec-indicator-bars">
+            <div class="sec-bar accent"></div>
+            <div class="sec-bar muted-1"></div>
+            <div class="sec-bar muted-2"></div>
+          </div>
+          <div class="sec-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 2l-2 2m-1.5 6.1L19 8.5 17 6.5 14.5 9l-1-1a5 5 0 1 0-5 5l1 1 2.5-2.5 2 2 1.6-1.6"/>
+              <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+        <h4 class="sec-widget-heading" id="widgetSecHeading">Your data, your rules</h4>
+        <p class="sec-widget-desc" id="widgetSecDesc">Your household reports belong to you, and verified dispatch ensures real-time collection.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Toast Notification -->
+  <div class="toast" id="toast">
+    <span class="dot"></span>
+    <span id="toastText">Action successful</span>
+  </div>
+
+  <script>
+    // State management
+    let isSignInMode = false;
+    let currentLang = 'ENG';
+
+    // Check URL query param e.g. ?mode=signin
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'signin' || urlParams.get('mode') === 'login') {
+      isSignInMode = true;
+    }
+
+    const switchPrompt = document.getElementById('switchPrompt');
+    const switchModeBtn = document.getElementById('switchModeBtn');
+    const authTitle = document.getElementById('authTitle');
+    const authSubtitle = document.getElementById('authSubtitle');
+    const nameFieldWrap = document.getElementById('nameFieldWrap');
+    const confirmFieldWrap = document.getElementById('confirmFieldWrap');
+    const passwordMeter = document.getElementById('passwordMeter');
+    const signInExtras = document.getElementById('signInExtras');
+    const submitBtnText = document.getElementById('submitBtnText');
+
+    function updateModeUI() {
+      if (isSignInMode) {
+        authTitle.textContent = currentLang === 'ENG' ? 'Sign In' : 'Mag-Sign In';
+        authSubtitle.textContent = currentLang === 'ENG' 
+          ? 'Welcome Back — Access Your Barangay Dispatch Console' 
+          : 'Maligayang Pagbabalik — Buksan ang Barangay Dispatch Console';
+        switchPrompt.textContent = currentLang === 'ENG' ? "Don't have an account?" : 'Wala pang account?';
+        switchModeBtn.textContent = currentLang === 'ENG' ? 'Sign up' : 'Mag-sign up';
+        submitBtnText.textContent = currentLang === 'ENG' ? 'Sign In' : 'Pumasok';
+        
+        nameFieldWrap.classList.add('hidden');
+        confirmFieldWrap.classList.add('hidden');
+        passwordMeter.classList.add('hidden');
+        signInExtras.classList.remove('hidden');
+      } else {
+        authTitle.textContent = currentLang === 'ENG' ? 'Sign Up' : 'Mag-Sign Up';
+        authSubtitle.textContent = currentLang === 'ENG' 
+          ? 'Secure Your Communications & Route Dispatch with Kolekta' 
+          : 'I-secure ang Koleksyon at Route Dispatch sa Kolekta';
+        switchPrompt.textContent = currentLang === 'ENG' ? 'Already member?' : 'Miyembro na?';
+        switchModeBtn.textContent = currentLang === 'ENG' ? 'Sign in' : 'Mag-sign in';
+        submitBtnText.textContent = currentLang === 'ENG' ? 'Sign Up' : 'Magrehistro';
+
+        nameFieldWrap.classList.remove('hidden');
+        confirmFieldWrap.classList.remove('hidden');
+        passwordMeter.classList.remove('hidden');
+        signInExtras.classList.add('hidden');
+      }
+    }
+
+    switchModeBtn.addEventListener('click', () => {
+      isSignInMode = !isSignInMode;
+      updateModeUI();
+    });
+
+    // Eye toggle for password visibility
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      
+      if (isPassword) {
+        btn.innerHTML = `
+          <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        `;
+      } else {
+        btn.innerHTML = `
+          <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+      }
+    }
+
+    // Live Validations
+    function validateName() {
+      const val = document.getElementById('nameInput').value.trim();
+      const badge = document.getElementById('nameCheckBadge');
+      if (val.length >= 3) {
+        badge.classList.add('active');
+      } else {
+        badge.classList.remove('active');
+      }
+    }
+
+    function validateEmail() {
+      const val = document.getElementById('emailInput').value.trim();
+      const badge = document.getElementById('emailCheckBadge');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(val)) {
+        badge.classList.add('active');
+      } else {
+        badge.classList.remove('active');
+      }
+    }
+
+    function validatePassword() {
+      const val = document.getElementById('passwordInput').value;
+      const meterFill = document.getElementById('meterFill');
+      const critLen = document.getElementById('critLen');
+      const critNum = document.getElementById('critNum');
+      const critCase = document.getElementById('critCase');
+
+      const hasLen = val.length >= 8;
+      const hasNum = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val);
+      const hasCase = /[a-z]/.test(val) && /[A-Z]/.test(val);
+
+      // Criteria checkmarks
+      updateCritRow(critLen, hasLen);
+      updateCritRow(critNum, hasNum);
+      updateCritRow(critCase, hasCase);
+
+      // Strength meter
+      let score = 0;
+      if (hasLen) score++;
+      if (hasNum) score++;
+      if (hasCase) score++;
+
+      meterFill.className = 'meter-bar-fill';
+      if (val.length === 0) {
+        meterFill.style.width = '0%';
+      } else if (score === 1) {
+        meterFill.classList.add('weak');
+      } else if (score === 2) {
+        meterFill.classList.add('medium');
+      } else if (score === 3) {
+        meterFill.classList.add('strong');
+      }
+
+      validateConfirmPassword();
+    }
+
+    function updateCritRow(row, isValid) {
+      const icon = row.querySelector('.crit-icon');
+      if (isValid) {
+        row.classList.add('valid');
+        icon.textContent = '✓';
+      } else {
+        row.classList.remove('valid');
+        icon.textContent = '•';
+      }
+    }
+
+    function validateConfirmPassword() {
+      if (isSignInMode) return;
+      const pass = document.getElementById('passwordInput').value;
+      const conf = document.getElementById('confirmInput').value;
+      const badge = document.getElementById('confirmCheckBadge');
+      if (conf.length > 0 && conf === pass) {
+        badge.classList.add('active');
+      } else {
+        badge.classList.remove('active');
+      }
+    }
+
+    // Form Submission
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      const pass = document.getElementById('passwordInput').value;
+
+      if (!email || !pass) {
+        toast('Please fill in your credentials');
+        return;
+      }
+
+      if (!isSignInMode) {
+        const name = document.getElementById('nameInput').value.trim();
+        const conf = document.getElementById('confirmInput').value;
+        if (!name) {
+          toast('Please provide your full name');
+          return;
+        }
+        if (pass !== conf) {
+          toast('Passwords do not match');
+          return;
+        }
+        toast('Account created! Welcome to Kolekta...');
+      } else {
+        toast('Signing in to Kolekta Console...');
+      }
+
+      // Redirect smoothly to dashboard after notification
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1200);
+    }
+
+    // Toast alert helper
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      const text = document.getElementById('toastText');
+      text.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    // Language Toggle
+    function toggleLanguage() {
+      currentLang = currentLang === 'ENG' ? 'FIL' : 'ENG';
+      document.getElementById('langLabel').textContent = currentLang;
+      document.getElementById('langFlag').textContent = currentLang === 'ENG' ? '🇵🇭' : '🌐';
+      
+      const rememberText = document.getElementById('rememberText');
+      const forgotText = document.getElementById('forgotText');
+      const critLenText = document.getElementById('critLenText');
+      const critNumText = document.getElementById('critNumText');
+      const critCaseText = document.getElementById('critCaseText');
+      const orText = document.getElementById('orText');
+
+      if (currentLang === 'FIL') {
+        rememberText.textContent = 'Tandaan ang device na ito';
+        forgotText.textContent = 'Nakalimutan ang password?';
+        critLenText.textContent = 'Hindi bababa sa 8 letra';
+        critNumText.textContent = 'May numerong (0-9) o simbolo';
+        critCaseText.textContent = 'May maliit (a-z) at malaking (A-Z) titik';
+        orText.textContent = 'O';
+      } else {
+        rememberText.textContent = 'Remember this device';
+        forgotText.textContent = 'Forgot password?';
+        critLenText.textContent = 'Least 8 characters';
+        critNumText.textContent = 'Least one number (0-9) or a symbol';
+        critCaseText.textContent = 'Lowercase (a-z) and uppercase (A-Z)';
+        orText.textContent = 'Or';
+      }
+
+      updateModeUI();
+      toast(currentLang === 'FIL' ? 'Wika pinalitan sa Filipino' : 'Language set to English');
+    }
+
+    // Initial setup
+    updateModeUI();
+  </script>
+</body>
+</html>

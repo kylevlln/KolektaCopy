@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolekta — Resident Dashboard (Primary User)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Black+Ops+One&family=Rubik+Dirt&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="kolekta.css">
+</head>
+<body>
+
+<!-- Role Context Bar -->
+<div class="role-switch-banner">
+  <div>
+    <span>👤 Viewing as: </span>
+    <span class="role-badge-primary">Resident · Primary User</span>
+    <span style="margin-left: 8px; font-size: 12px;">Household #0231 · Purok 3 (Maharlika St.)</span>
+  </div>
+  <a href="admin-dashboard.html" class="role-switch-link" title="Switch to Admin Dashboard">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="8.5" cy="7" r="4"></circle>
+      <polyline points="17 11 19 13 23 9"></polyline>
+    </svg>
+    Switch to Administrator (Secondary User) Console →
+  </a>
+</div>
+
+<div class="app">
+  <!-- SIDEBAR: RESIDENT PRIMARY USER -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="trash-icon-stamp" style="width: 26px; height: 26px; border-radius: 4px; background: var(--pine-dim); margin-right: 2px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+      </span>
+      <span class="brand-name" style="font-size: 20px;"><span class="trash-word" style="font-size: 22px; color: var(--white); vertical-align: baseline;">TRASH</span>parency</span>
+    </div>
+    <div class="brand-sub">“Bin There, Done That” · Resident Portal</div>
+
+    <nav>
+      <div class="navlink active" data-view="overview"><span class="num">01</span>Live Truck & Status</div>
+      <div class="navlink" data-view="report"><span class="num">02</span>Report Missed Pickup</div>
+      <div class="navlink" data-view="schedule"><span class="num">03</span>My Purok Schedule</div>
+      <div class="navlink" data-view="guide"><span class="num">04</span>Waste Sorting Guide</div>
+      <div class="navlink" data-view="alerts"><span class="num">05</span>Barangay Alerts <span class="role-chip" style="background:var(--pine-dim)">2 New</span></div>
+      <div class="navlink" data-view="profile"><span class="num">06</span>Household Profile</div>
+    </nav>
+
+    <div class="sidebar-foot">
+      Logged in as<br>
+      <b id="whoami">Daniel Ahmadi</b>
+      <div style="font-size: 11px; color: #9FAE9C; margin-top: 2px;">Role: <span style="color: #FCFAF4; font-weight: 600;">Resident (Primary User)</span></div>
+      <div style="font-size: 11px; color: #9FAE9C;">Zone: <b>Purok 3 · Maharlika St.</b></div>
+      <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08);">
+        <a href="admin-dashboard.html" style="color: var(--paper); font-size: 11.5px; text-decoration: underline; display: block; margin-bottom: 6px;">Switch to Administrator Console</a>
+        <a href="signin.html" style="color: #9FAE9C; font-size: 11.5px; text-decoration: none;">← Sign out</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN RESIDENT CONTENT -->
+  <main>
+    <!-- VIEW 01: OVERVIEW & LIVE TRACKER -->
+    <section class="view active" id="view-overview">
+      <div class="topbar">
+        <div>
+          <h1>Household Collection Status</h1>
+          <p>Real-time waste tracking and alerts for <b>Purok 3, Barangay San Isidro</b></p>
+        </div>
+        <div class="today">
+          Wednesday<b>Sept 3, 2026</b>
+        </div>
+      </div>
+
+      <!-- Live Route Tracker Card -->
+      <div class="tracker-card">
+        <div class="tracker-header">
+          <div>
+            <span class="tracker-status-chip">
+              <span class="tracker-pulse"></span>
+              TRUCK EN ROUTE TO PUROK 3
+            </span>
+            <h3 style="margin: 8px 0 2px; font-size: 18px;">Today's Waste: <span style="color: var(--grey);">Non-Biodegradable (Black Bin)</span></h3>
+            <p style="margin: 0; font-size: 12.5px; color: var(--ink-soft);">Truck #04 departed the station at 7:51 AM. Residents on Maharlika St. should ensure bins are positioned curbside.</p>
+          </div>
+          <button class="btn ghost small" onclick="refreshTracker()">↻ Refresh Status</button>
+        </div>
+
+        <div class="tracker-timeline">
+          <div class="tracker-progress-line" id="trackerProgress"></div>
+          
+          <div class="tracker-step completed">
+            <div class="tracker-node">✓</div>
+            <div class="tracker-step-title">Scheduled</div>
+            <div class="tracker-step-time">7:00 AM</div>
+          </div>
+
+          <div class="tracker-step completed">
+            <div class="tracker-node">✓</div>
+            <div class="tracker-step-title">Truck Dispatched</div>
+            <div class="tracker-step-time">7:51 AM</div>
+          </div>
+
+          <div class="tracker-step active">
+            <div class="tracker-node">🚛</div>
+            <div class="tracker-step-title">In Purok 3 Route</div>
+            <div class="tracker-step-time">Approaching Block</div>
+          </div>
+
+          <div class="tracker-step">
+            <div class="tracker-node">🏁</div>
+            <div class="tracker-step-title">Completed</div>
+            <div class="tracker-step-time">Est. 8:30 AM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resident Quick Stats Grid -->
+      <div class="stats" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="stat">
+          <div class="stat-label">Assigned Zone</div>
+          <div class="stat-value pine" style="font-size: 26px;">Purok 3</div>
+          <div class="stat-note">Maharlika St. Route</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Next Collection</div>
+          <div class="stat-value" style="font-size: 26px;">Friday</div>
+          <div class="stat-note">Recyclables (Blue Tag)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">My Reports</div>
+          <div class="stat-value clay" style="font-size: 26px;">1 Open</div>
+          <div class="stat-note">Secondary truck en route</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Collection Rate</div>
+          <div class="stat-value pine" style="font-size: 26px;">98.4%</div>
+          <div class="stat-note">On-time this month</div>
+        </div>
+      </div>
+
+      <!-- Split Cards: Report History & Today's Checklist -->
+      <div class="user-grid-2">
+        <!-- Recent Household Tickets -->
+        <div class="card-box">
+          <div class="block-head">
+            <h2>My Pickup Reports</h2>
+            <a onclick="switchView('report')">+ Submit report →</a>
+          </div>
+          <p style="font-size: 12.5px; color: var(--ink-soft); margin: -4px 0 14px;">Tickets submitted from your household:</p>
+          
+          <table>
+            <tr><th>Ticket ID</th><th>Issue</th><th>Date</th><th>Status</th></tr>
+            <tr>
+              <td><span class="mono" style="font-size: 11px;">#TK-0903</span></td>
+              <td>Missed bags outside gate 12</td>
+              <td>Today, 7:51am</td>
+              <td><span class="tag dispatched">Dispatched</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono" style="font-size: 11px;">#TK-0828</span></td>
+              <td>Bulk cardboard boxes</td>
+              <td>Aug 28</td>
+              <td><span class="tag resolved">Resolved</span></td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Weekly Schedule Quick Glance -->
+        <div class="card-box">
+          <div class="block-head">
+            <h2>Purok 3 Schedule</h2>
+            <a onclick="switchView('schedule')">Full schedule →</a>
+          </div>
+          <div class="resident-sched-list">
+            <div class="resident-sched-item">
+              <div><b>Monday</b><div style="font-size: 11.5px; color: var(--ink-soft);">Food scraps, organic matter</div></div>
+              <span class="tag bio">Biodegradable</span>
+            </div>
+            <div class="resident-sched-item today-active">
+              <div><b>Wednesday (Today)</b><div style="font-size: 11.5px; color: var(--pine);">Active pickup right now</div></div>
+              <span class="tag nonbio">Non-Bio</span>
+            </div>
+            <div class="resident-sched-item">
+              <div><b>Friday</b><div style="font-size: 11.5px; color: var(--ink-soft);">Plastics, cardboard, cans</div></div>
+              <span class="tag recyc">Recyclable</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 02: REPORT MISSED PICKUP / BULKY WASTE -->
+    <section class="view" id="view-report">
+      <div class="topbar">
+        <div>
+          <h1>Report a Missed Pickup or Waste Issue</h1>
+          <p>Submit photo-verified reports directly to your Purok's collection dispatcher</p>
+        </div>
+      </div>
+
+      <div class="user-grid-2">
+        <!-- Form -->
+        <div class="card-box">
+          <h2 style="font-size: 17px; margin-top: 0;">New Collection Report</h2>
+          <p style="font-size: 12.5px; color: var(--ink-soft); margin-bottom: 16px;">SWM officers review and dispatch a secondary pickup truck within 2–4 hours.</p>
+
+          <form class="report-form" onsubmit="submitResidentReport(event)">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 6px;">Report Category</label>
+              <div class="report-type-options">
+                <label class="report-pill-radio">
+                  <input type="radio" name="reportType" value="Missed Pickup" checked>
+                  <span class="report-pill-label">
+                    <span>🚛</span>
+                    Missed Pickup
+                  </span>
+                </label>
+                <label class="report-pill-radio">
+                  <input type="radio" name="reportType" value="Overflowing Public Bin">
+                  <span class="report-pill-label">
+                    <span>🗑️</span>
+                    Overflowing Bin
+                  </span>
+                </label>
+                <label class="report-pill-radio">
+                  <input type="radio" name="reportType" value="Bulky Waste">
+                  <span class="report-pill-label">
+                    <span>📦</span>
+                    Bulky Waste
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 4px;">Street & House Location</label>
+              <input type="text" id="reportLocation" value="Maharlika St., Purok 3 (Gate 12)" style="width: 100%;">
+            </div>
+
+            <div>
+              <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 4px;">Details / Specific Bags</label>
+              <textarea id="reportDetails" rows="3" placeholder="e.g. 2 black sacks left on curb, truck passed without stopping..." style="width: 100%; font-family: 'IBM Plex Sans'; padding: 8px 10px; border: 1px solid var(--line); font-size: 13px;"></textarea>
+            </div>
+
+            <div>
+              <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 4px;">Photo Verification (Recommended)</label>
+              <div class="photo-upload-placeholder" onclick="toast('Photo uploaded: curb_bags_evidence.jpg')">
+                <div style="font-size: 22px; margin-bottom: 4px;">📷</div>
+                <div style="font-size: 12.5px; font-weight: 600; color: var(--pine);">Click to capture or attach photo</div>
+                <div style="font-size: 11px; color: var(--ink-soft);">Helps dispatchers verify uncollected waste quickly</div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn clay" style="align-self: flex-start; margin-top: 4px;">Submit Report to Dispatcher</button>
+          </form>
+        </div>
+
+        <!-- Guidelines for Resident -->
+        <div>
+          <div class="card-box" style="margin-bottom: 20px;">
+            <h3 style="margin-top: 0; font-size: 15px;">When should I submit a report?</h3>
+            <ul style="font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; padding-left: 18px; margin: 0;">
+              <li>The truck completed collection on your block but missed your marked bins.</li>
+              <li>You have bulky items (furniture, pruned tree branches) that need special dispatch.</li>
+              <li>A communal waste corner has overflowing trash causing hazard.</li>
+            </ul>
+          </div>
+
+          <div class="card-box" style="background: #F4F8F4; border-color: var(--pine-dim);">
+            <div style="display: flex; gap: 10px; align-items: flex-start;">
+              <span style="font-size: 20px;">ℹ️</span>
+              <div>
+                <b style="font-size: 13.5px; color: var(--pine);">Barangay SWM Hotline</b>
+                <p style="font-size: 12px; color: var(--ink-soft); margin: 4px 0 0;">For immediate emergencies or hazardous spills, call San Isidro Operations at <b>(02) 8921-4321</b>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 03: MY PUROK SCHEDULE -->
+    <section class="view" id="view-schedule">
+      <div class="topbar">
+        <div>
+          <h1>My Purok Collection Schedule</h1>
+          <p>Weekly schedule for <b>Purok 3 (Maharlika, Ilang-Ilang, & Riverside)</b></p>
+        </div>
+      </div>
+
+      <div class="user-grid-2">
+        <div class="card-box">
+          <h2 style="font-size: 17px; margin-top: 0;">Weekly Schedule Table</h2>
+          <table>
+            <tr><th>Day</th><th>Time Window</th><th>Waste Type</th><th>Guidelines</th></tr>
+            <tr>
+              <td><b>Monday</b></td>
+              <td>7:00 AM – 9:30 AM</td>
+              <td><span class="tag bio">Biodegradable</span></td>
+              <td>Food waste, vegetable peels, garden cuttings in green bins.</td>
+            </tr>
+            <tr style="background: #F7FAF7;">
+              <td><b>Wednesday (Today)</b></td>
+              <td>7:00 AM – 9:30 AM</td>
+              <td><span class="tag nonbio">Non-Bio</span></td>
+              <td>Tied black bags, sanitary waste, residual packaging.</td>
+            </tr>
+            <tr>
+              <td><b>Friday</b></td>
+              <td>7:00 AM – 9:30 AM</td>
+              <td><span class="tag recyc">Recyclables</span></td>
+              <td>Dry cardboard, bottles, metal cans rinsed & bundled.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box">
+          <h2 style="font-size: 17px; margin-top: 0;">Notification Reminders</h2>
+          <p style="font-size: 12.5px; color: var(--ink-soft);">Never miss a pickup. Configure how you receive reminders before the truck arrives.</p>
+          
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+            <label style="display: flex; align-items: center; justify-content: space-between; font-size: 13px;">
+              <span>SMS Alert 1 hour before pickup</span>
+              <input type="checkbox" checked accent-color="var(--pine)" onchange="toast('SMS notification preferences updated')">
+            </label>
+            <label style="display: flex; align-items: center; justify-content: space-between; font-size: 13px;">
+              <span>Push Notification when truck enters Purok 3</span>
+              <input type="checkbox" checked accent-color="var(--pine)" onchange="toast('Route proximity alerts enabled')">
+            </label>
+            <label style="display: flex; align-items: center; justify-content: space-between; font-size: 13px;">
+              <span>Emergency schedule cancellation alerts</span>
+              <input type="checkbox" checked accent-color="var(--pine)" onchange="toast('Emergency cancellation broadcasts active')">
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 04: WASTE SORTING GUIDE -->
+    <section class="view" id="view-guide">
+      <div class="topbar">
+        <div>
+          <h1>Waste Sorting Reference Guide</h1>
+          <p>Proper segregation saves landfill space and avoids uncollected penalties</p>
+        </div>
+      </div>
+
+      <div class="waste-guide-cards">
+        <!-- Bio -->
+        <div class="guide-card bio">
+          <div class="guide-title"><span style="color: var(--pine);">🍃</span> Biodegradable (Nabubulok)</div>
+          <p style="font-size: 11.5px; color: var(--ink-soft); margin: 0;">Put out on <b>Monday</b> mornings.</p>
+          <ul class="guide-list">
+            <li>Leftover cooked food & rice</li>
+            <li>Fruit & vegetable peels</li>
+            <li>Coffee grounds & tea bags</li>
+            <li>Dry leaves, grass & garden trimmings</li>
+            <li>Eggshells and bones</li>
+          </ul>
+        </div>
+
+        <!-- Non-bio -->
+        <div class="guide-card nonbio">
+          <div class="guide-title"><span style="color: var(--grey);">📦</span> Non-Biodegradable (Di-Nabubulok)</div>
+          <p style="font-size: 11.5px; color: var(--ink-soft); margin: 0;">Put out on <b>Wednesday</b> mornings.</p>
+          <ul class="guide-list">
+            <li>Candy wrappers & sachets</li>
+            <li>Dirty plastic bags & styrofoam</li>
+            <li>Sanitary napkins & diapers</li>
+            <li>Worn out shoes & rags</li>
+            <li>Broken ceramics & mirrors</li>
+          </ul>
+        </div>
+
+        <!-- Recyclable -->
+        <div class="guide-card recyc">
+          <div class="guide-title"><span style="color: var(--blue);">♻️</span> Recyclable (Naireresiklo)</div>
+          <p style="font-size: 11.5px; color: var(--ink-soft); margin: 0;">Put out on <b>Friday</b> mornings.</p>
+          <ul class="guide-list">
+            <li>Clean cardboard & newspapers</li>
+            <li>PET water bottles & hard plastics</li>
+            <li>Aluminum soda cans & tin cans</li>
+            <li>Clean glass jars and bottles</li>
+            <li>Scrap metal and wires</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 05: BARANGAY ALERTS -->
+    <section class="view" id="view-alerts">
+      <div class="topbar">
+        <div>
+          <h1>Barangay Announcements & Alerts</h1>
+          <p>Important notices from Barangay San Isidro Solid Waste Management</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; max-width: 800px;">
+        <div class="card-box" style="border-left: 4px solid var(--pine);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <b style="font-size: 14.5px; color: var(--pine);">🌿 Community E-Waste & Hazardous Battery Drop-Off</b>
+            <span style="font-size: 11.5px; color: var(--ink-soft);">Yesterday, 4:00 PM</span>
+          </div>
+          <p style="font-size: 13px; color: var(--ink); margin: 6px 0 0; line-height: 1.5;">This Saturday, Sept 6, a special collection station for old electronics, chargers, and fluorescent bulbs will be set up at the Purok 3 Covered Court from 8am to 12pm.</p>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--amber);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <b style="font-size: 14.5px; color: #7A5D18;">⚠️ Road Maintenance Advisory: Riverside Lane</b>
+            <span style="font-size: 11.5px; color: var(--ink-soft);">Sept 1, 2026</span>
+          </div>
+          <p style="font-size: 13px; color: var(--ink); margin: 6px 0 0; line-height: 1.5;">Drainage repair along Riverside Lane may cause collection trucks to arrive 15–20 minutes earlier than usual on Friday. Please position bins before 6:45 AM.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 06: HOUSEHOLD PROFILE -->
+    <section class="view" id="view-profile">
+      <div class="topbar">
+        <div>
+          <h1>Household Profile & Registration</h1>
+          <p>Personal resident account details and registered address</p>
+        </div>
+      </div>
+
+      <div class="card-box" style="max-width: 640px;">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--pine-dim); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700;">
+            DA
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 17px;" id="profileName">Daniel Ahmadi</h3>
+            <div style="font-size: 12.5px; color: var(--ink-soft);">Registered Resident · Household <b id="profileHh">#0231</b></div>
+          </div>
+          <span class="role-badge-primary" style="margin-left: auto;">Primary User</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px;">
+          <div>
+            <div style="color: var(--ink-soft); font-size: 11.5px; text-transform: uppercase;">Barangay Zone</div>
+            <div style="font-weight: 600; margin-top: 2px;">Purok 3 (San Isidro)</div>
+          </div>
+          <div>
+            <div style="color: var(--ink-soft); font-size: 11.5px; text-transform: uppercase;">Street Address</div>
+            <div style="font-weight: 600; margin-top: 2px;">Maharlika St., Gate 12</div>
+          </div>
+          <div>
+            <div style="color: var(--ink-soft); font-size: 11.5px; text-transform: uppercase;">Mobile Contact</div>
+            <div style="font-weight: 600; margin-top: 2px;">0917-•••-2314</div>
+          </div>
+          <div>
+            <div style="color: var(--ink-soft); font-size: 11.5px; text-transform: uppercase;">Registration Date</div>
+            <div style="font-weight: 600; margin-top: 2px;">January 2026</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; gap: 10px;">
+          <button class="btn ghost small" onclick="toast('Edit profile request sent to barangay records')">Edit Information</button>
+          <a href="signin.html" class="btn clay small" style="text-decoration: none;">Sign Out</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastText"></span></div>
+
+<script>
+  // Navigation tabs
+  function switchView(name){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.querySelectorAll('.navlink').forEach(n=>n.classList.remove('active'));
+    const target = document.getElementById('view-'+name);
+    if(target) target.classList.add('active');
+    const nav = document.querySelector('.navlink[data-view="'+name+'"]');
+    if(nav) nav.classList.add('active');
+  }
+  document.querySelectorAll('.navlink').forEach(n=>{
+    n.addEventListener('click',()=>switchView(n.dataset.view));
+  });
+
+  // Toast notification
+  function toast(msg){
+    const t=document.getElementById('toast');
+    document.getElementById('toastText').textContent=msg;
+    t.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+  }
+
+  // Refresh live truck tracker
+  function refreshTracker(){
+    toast('Checking live GPS signal for Truck #04...');
+    const progress = document.getElementById('trackerProgress');
+    progress.style.width = '75%';
+    setTimeout(()=>{
+      toast('Truck #04 is now 2 blocks away on Maharlika St.');
+    }, 1000);
+  }
+
+  // Submit resident report
+  function submitResidentReport(e){
+    e.preventDefault();
+    const type = document.querySelector('input[name="reportType"]:checked').value;
+    const loc = document.getElementById('reportLocation').value;
+    const details = document.getElementById('reportDetails').value;
+    
+    toast('Report for "'+type+'" submitted! Ticket #TK-'+Math.floor(1000+Math.random()*9000)+' created.');
+    document.getElementById('reportDetails').value = '';
+    setTimeout(()=>{
+      switchView('overview');
+    }, 1400);
+  }
+
+  // Load custom session name if present from signin
+  try {
+    const session = JSON.parse(localStorage.getItem('kolekta_session') || '{}');
+    if(session && session.name) {
+      document.getElementById('whoami').textContent = session.name;
+      const profName = document.getElementById('profileName');
+      if(profName) profName.textContent = session.name;
+    }
+  } catch(e){}
+</script>
+</body>
+</html>
