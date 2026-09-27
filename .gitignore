@@ -1,0 +1,29 @@
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
+# Uploads (runtime artifacts — user-submitted photos)
+uploads/reports/*
+
+# Database copy saved alongside the app
+kolekta.sql.bak
+db/*.sql.bak
+
+# Local/experimental junk that ended up in the repo root
+download
+download (2)
+index (3).html
+kolekta (1).css
+
+# XAMPP
+.history/
